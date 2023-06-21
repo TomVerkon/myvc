@@ -1,14 +1,17 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { UserDto } from './dtos/user.dto';
 
 @Controller('auth')
+@Serialize(UserDto)
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
-    console.log('controller:', body);
     return this.userService.create(body);
   }
 
@@ -18,17 +21,17 @@ export class UsersController {
   }
 
   @Get()
-  find(@Query('email') email: string) {
+  find(@Query('email') email?: string) {
     return this.userService.find(email);
   }
 
-  @Patch()
-  updateUser(@Param('id') id: string) {
-    return this.userService.update(id);
+  @Patch('/:id')
+  updateUser(@Body() user: UpdateUserDto, @Param('id') id: string) {
+    return this.userService.update(parseInt(id), user);
   }
 
-  @Delete()
+  @Delete('/:id')
   removeUser(@Param('id') id: string) {
-    return this.userService.remove(id);
+    return this.userService.remove(parseInt(id));
   }
 }
