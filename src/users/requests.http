@@ -3,16 +3,30 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
-  "password" : "secret"
+  "email": "test@aol.com",
+  "password" : "$3cr3+"
 }
 
+### Signin an existing user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "test@yahoo.com",
+  "password" : "$3cr3+"
+}
+
+### Sigout current logged in user
+POST http://localhost:3000/auth/signout
+
+### Get current loggedin user
+GET http://localhost:3000/auth/whoami
 
 ### Find user by id
 GET http://localhost:3000/auth/1
 
 ### Update an existing user
-PATCH http://localhost:3000/auth/1
+PATCH http://localhost:3000/auth/13
 Content-Type: application/json
 
 {
@@ -27,5 +41,11 @@ GET http://localhost:3000/auth
 
 
 ### remove a particular user by id
-DELETE http://localhost:3000/auth/6
+DELETE http://localhost:3000/auth/12
+
+### set a color
+GET http://localhost:3000/auth/colors/green
+
+### get the color
+GET http://localhost:3000/auth/colors
 
