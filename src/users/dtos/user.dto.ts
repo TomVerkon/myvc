@@ -1,7 +1,6 @@
 import { Expose } from 'class-transformer';
-import { BaseDto } from './base-dto';
 
-export class UserDto extends BaseDto {
+export class UserDto {
   @Expose()
   id: number;
 

@@ -31,40 +31,16 @@ export class UsersController {
   }
 
   @Post('/signup')
-  async signup(@Body() body: CreateUserDto, @Session() session: any) {
-    // // generate jwt and store in session object
-    // const userJwt = jwt.sign(
-    //   {
-    //     id: existingUser.id,
-    //     email: existingUser.email,
-    //   },
-    //   process.env.JWT_KEY!,
-    // );
-
-    // req.session = { jwt: userJwt };
-
-    // res.status(StatusCode.OK).send(existingUser);
-    const user = await this.authService.signup(body);
+  async signup(@Body() { email, password }: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(email, password);
     session.userId = user.id;
     return user;
   }
 
   @Post('/signin')
   @HttpCode(200)
-  async signin(@Body() body: CreateUserDto, @Session() session: any) {
-    // // generate jwt and store in session object
-    // const userJwt = jwt.sign(
-    //   {
-    //     id: existingUser.id,
-    //     email: existingUser.email,
-    //   },
-    //   process.env.JWT_KEY!,
-    // );
-
-    // req.session = { jwt: userJwt };
-
-    // res.status(StatusCode.OK).send(existingUser);
-    const user = await this.authService.signin(body);
+  async signin(@Body() { email, password }: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(email, password);
     session.userId = user.id;
     return user;
   }
@@ -85,8 +61,8 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(@Body() user: UpdateUserDto, @Param('id') id: string) {
-    return this.userService.update(parseInt(id), user);
+  updateUser(@Body() body: UpdateUserDto, @Param('id') id: string) {
+    return this.userService.update(parseInt(id), body);
   }
 
   @Delete('/:id')

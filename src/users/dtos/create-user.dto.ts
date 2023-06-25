@@ -1,7 +1,6 @@
 import { IsEmail, IsString } from 'class-validator';
-import { BaseDto } from './base-dto';
 
-export class CreateUserDto extends BaseDto {
+export class CreateUserDto {
   @IsEmail()
   email: string;
 

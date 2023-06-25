@@ -11,8 +11,9 @@ export class UsersService {
   // hence the @InjectRepository(User) to help it understand
   constructor(@InjectRepository(User) private readonly repo: Repository<User>) {}
 
-  async create(body: CreateUserDto) {
-    return await this.repo.save(this.repo.create(body));
+  async create(email: string, password: string) {
+    const user = this.repo.create({ email, password });
+    return await this.repo.save(user);
   }
 
   async findOne(id: number) {

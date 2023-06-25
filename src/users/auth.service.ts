@@ -7,24 +7,24 @@ import { Password } from './password';
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async signup(body: CreateUserDto) {
-    const { email, password } = body;
+  //  async signup(body: CreateUserDto) {
+  async signup(email: string, password: string) {
     // Make sure email is not in use
     const users = await this.usersService.find(email);
     if (users.length) throw new BadRequestException('EMail is already in use');
     // hash users password
-    const encryptedPasssword = await Password.toHash(password);
+    const encryptedPassword = await Password.toHash(password);
+    console.log(encryptedPassword);
     //create the user
-    return await this.usersService.create({ email, password: encryptedPasssword });
+    const user = await this.usersService.create(email, encryptedPassword);
+    return user;
   }
 
-  async signin(body: CreateUserDto) {
-    const { email, password } = body;
-    const [user] = await this.usersService.find(email);
-    if (!user) throw new NotFoundException('Bad credentials');
-    //const encryptedPasssword = await Password.toHash(password);
-    if (await Password.compare(user.password, password)) {
-      return user;
+  async signin(email: string, password: string) {
+    const users = await this.usersService.find(email);
+    if (!users.length) throw new NotFoundException('Bad credentials');
+    if (await Password.compare(users[0].password, password)) {
+      return users[0];
     } else {
       throw new BadRequestException('Bad credentials');
     }
