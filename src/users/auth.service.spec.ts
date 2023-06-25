@@ -30,7 +30,7 @@ describe('AuthService', () => {
 
   it('signin throws a NotFoundException if email is not found', async () => {
     try {
-      const user = await service.signin('test@test.com', 'password');
+      await service.signin('test@test.com', 'password');
       fail('It should not reach here');
     } catch (e: any) {
       expect(e).toBeInstanceOf(NotFoundException);
@@ -44,7 +44,7 @@ describe('AuthService', () => {
 
     fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword }];
     try {
-      const user = await service.signin('test@test.com', 'password');
+      await service.signin('test@test.com', 'password');
       fail('It should not reach here');
     } catch (e: any) {
       expect(e).toBeInstanceOf(BadRequestException);
@@ -56,7 +56,7 @@ describe('AuthService', () => {
     const password = await Password.generateKey('password', salt);
     const resolvedPassword = `${password}.${salt}`;
 
-    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: `${password}.${salt}` }];
+    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword }];
     try {
       const user = await service.signin('test@test.com', 'password');
       expect(user).toBeDefined();
@@ -68,7 +68,7 @@ describe('AuthService', () => {
   it('signup returns a BadRequstException is email is in use', async () => {
     fakeFindReturn = [{ id: 1, email: 'test@test.com', password: 'whoCares' }];
     try {
-      const user = await service.signup('test@test.com', 'password');
+      await service.signup('test@test.com', 'password');
       fail('It should not reach here');
     } catch (e: any) {
       expect(e).toBeInstanceOf(BadRequestException);
@@ -84,5 +84,7 @@ describe('AuthService', () => {
     expect(user).toBeDefined();
     expect(user.id).toEqual(1);
     expect(user.email).toEqual('test@test.com');
+    expect(hash).toBeDefined();
+    expect(salt).toBeDefined();
   });
 });

@@ -1,6 +1,5 @@
-import { Injectable, NotFoundException, BadRequestException, Session } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dtos/create-user.dto';
 import { Password } from './password';
 
 @Injectable()
