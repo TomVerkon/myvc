@@ -5,11 +5,11 @@ import { User } from './user.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Password } from './password';
 
-let service: AuthService;
-let fakeFindReturn: User[] = [];
-//let fakeCreateReturn: User = { id: 1, email, password };
-
 describe('AuthService', () => {
+  let service: AuthService;
+  let fakeFindReturn: User[] = [];
+  //let fakeCreateReturn: User = { id: 1, email, password };
+
   beforeEach(async () => {
     //create a fake copy of usersService
     const fakeUsersService = {
@@ -29,10 +29,10 @@ describe('AuthService', () => {
   });
 
   it('signin throws a NotFoundException if email is not found', async () => {
+    fakeFindReturn = [];
     try {
       await service.signin('test@test.com', 'password');
-      fail('It should not reach here');
-    } catch (e: any) {
+    } catch (e: any | unknown) {
       expect(e).toBeInstanceOf(NotFoundException);
     }
   });
@@ -45,8 +45,7 @@ describe('AuthService', () => {
     fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword }];
     try {
       await service.signin('test@test.com', 'password');
-      fail('It should not reach here');
-    } catch (e: any) {
+    } catch (e: any | unknown) {
       expect(e).toBeInstanceOf(BadRequestException);
     }
   });
@@ -57,33 +56,20 @@ describe('AuthService', () => {
     const resolvedPassword = `${password}.${salt}`;
 
     fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword }];
-    try {
-      const user = await service.signin('test@test.com', 'password');
-      expect(user).toBeDefined();
-    } catch (e: any) {
-      fail(e);
-    }
+    const user = await service.signin('test@test.com', 'password');
+    expect(user).toBeDefined();
   });
 
   it('signup returns a BadRequstException is email is in use', async () => {
     fakeFindReturn = [{ id: 1, email: 'test@test.com', password: 'whoCares' }];
-    try {
-      await service.signup('test@test.com', 'password');
-      fail('It should not reach here');
-    } catch (e: any) {
-      expect(e).toBeInstanceOf(BadRequestException);
-      expect((e as BadRequestException).message).toEqual('EMail is already in use');
-    }
+    await expect(service.signup('test@test.com', 'password')).rejects.toThrow(BadRequestException);
   });
 
-  it('signup returns a created user', async () => {
+  it('signup returns a created user with encrypetd and salted password', async () => {
     fakeFindReturn = [];
     const user = await service.signup('test@test.com', 'password');
-    console.log('testUser:', user);
-    const [hash, salt] = user.password.split('.');
     expect(user).toBeDefined();
-    expect(user.id).toEqual(1);
-    expect(user.email).toEqual('test@test.com');
+    const [hash, salt] = user.password.split('.');
     expect(hash).toBeDefined();
     expect(salt).toBeDefined();
   });

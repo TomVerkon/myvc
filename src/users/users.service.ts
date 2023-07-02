@@ -16,9 +16,7 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    if (!id) throw new BadRequestException('You must supply a user id!');
     const user = await this.repo.findOneBy({ id });
-    if (!user) throw new NotFoundException(`User with id: ${id} was not found`);
     return user;
   }
 

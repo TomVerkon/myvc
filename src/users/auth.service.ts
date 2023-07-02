@@ -13,7 +13,6 @@ export class AuthService {
     if (users.length) throw new BadRequestException('EMail is already in use');
     // hash users password
     const encryptedPassword = await Password.toHash(password);
-    console.log(encryptedPassword);
     //create the user
     const user = await this.usersService.create(email, encryptedPassword);
     return user;
@@ -21,7 +20,9 @@ export class AuthService {
 
   async signin(email: string, password: string) {
     const users = await this.usersService.find(email);
-    if (!users.length) throw new NotFoundException('Bad credentials');
+    if (!users[0]) {
+      throw new NotFoundException('Bad credentials');
+    }
     if (await Password.compare(users[0].password, password)) {
       return users[0];
     } else {
