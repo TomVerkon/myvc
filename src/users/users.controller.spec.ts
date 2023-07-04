@@ -13,8 +13,8 @@ describe('UsersController', () => {
   let fakeAuthService: Partial<AuthService>;
   let fakeUsersService: Partial<UsersService>;
   let fakeFindReturn: User[] = [];
-  let fakeReturn: User = { id: 1, email: 'test@test.com', password: 'password' };
-  let fakeUpdateReturn: User = { id: 1, email: 'test@test.com', password: 'password' };
+  let fakeReturn: User = { id: 1, email: 'test@test.com', password: 'password', reports: [] };
+  let fakeUpdateReturn: User = { id: 1, email: 'test@test.com', password: 'password', reports: [] };
 
   beforeEach(async () => {
     //create a fake copy of usersService

@@ -42,7 +42,7 @@ describe('AuthService', () => {
     const password = await Password.generateKey('password1', salt);
     const resolvedPassword = `${password}.${salt}`;
 
-    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword }];
+    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword, reports: [] }];
     try {
       await service.signin('test@test.com', 'password');
     } catch (e: any | unknown) {
@@ -55,13 +55,13 @@ describe('AuthService', () => {
     const password = await Password.generateKey('password', salt);
     const resolvedPassword = `${password}.${salt}`;
 
-    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword }];
+    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: resolvedPassword, reports: [] }];
     const user = await service.signin('test@test.com', 'password');
     expect(user).toBeDefined();
   });
 
   it('signup returns a BadRequstException is email is in use', async () => {
-    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: 'whoCares' }];
+    fakeFindReturn = [{ id: 1, email: 'test@test.com', password: 'whoCares', reports: [] }];
     await expect(service.signup('test@test.com', 'password')).rejects.toThrow(BadRequestException);
   });
 

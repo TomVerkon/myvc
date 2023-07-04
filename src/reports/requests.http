@@ -1,0 +1,24 @@
+### Create a new report
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+  "price": 120000,
+  "make": "Ford",
+  "model": "Explorer",
+  "year": 2004,
+  "lat": 0,
+  "lng": 0,
+  "mileage": 189000
+}
+
+### find all reports by current user
+GET http://localhost:3000/reports
+Content-Type: application/json
+
+
+### approve/disapprove report by id
+PATCH http://localhost:3000/reports/4
+Content-Type: application/json
+
+  {"approved": true}
