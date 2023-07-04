@@ -40,8 +40,6 @@ describe('UsersController', () => {
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
-    // authService = module.get<AuthService>(AuthService);
-    // usersService = module.get(UsersService);
   });
 
   it('should be defined', () => {
