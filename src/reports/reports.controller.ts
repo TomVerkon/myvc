@@ -16,7 +16,6 @@ export class ReportsController {
   @UseGuards(AuthGuard)
   @Serialize(ReportDto)
   async createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
-    console.log('controller createReport: ', body);
     return this.reportsService.create(body, user);
   }
 
@@ -24,15 +23,13 @@ export class ReportsController {
   @UseGuards(AuthGuard)
   @Serialize(ReportDto)
   async approveReport(@Body() body: ApproveReportDto, @Param('id') id: string) {
-    console.log('controller approved: ', body);
-    return this.reportsService.approveReport(parseInt(id), body.approved);
+    return this.reportsService.changeApproval(parseInt(id), body.approved);
   }
 
   @Get()
   @UseGuards(AuthGuard)
   @Serialize(ReportDto)
   async getReportsByUser(@CurrentUser() user: User) {
-    console.log('controller: ', user);
     const reports = await this.reportsService.find(user);
     return reports;
   }

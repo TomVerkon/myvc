@@ -43,7 +43,7 @@ describe('ReportsController', () => {
   beforeEach(async () => {
     fakeReportsService = {
       create: (createReportDto, user) => Promise.resolve(report),
-      approveReport: (id: 1, approved: true) => Promise.resolve(report),
+      changeApproval: (id: 1, approved: true) => Promise.resolve(report),
       find: user => Promise.resolve([report]),
     };
 

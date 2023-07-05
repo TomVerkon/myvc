@@ -12,6 +12,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Report, report => report.user)
+  @OneToMany(type => Report, report => report.user)
   reports: Report[];
 }

@@ -30,6 +30,6 @@ export class Report {
   @Column()
   mileage: number;
 
-  @ManyToOne(() => User, user => user.reports)
+  @ManyToOne(type => User, user => user.reports, { eager: true })
   user: User;
 }
