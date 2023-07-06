@@ -12,13 +12,33 @@ Content-Type: application/json
   "mileage": 189000
 }
 
-### find all reports by current user
-GET http://localhost:3000/reports
-Content-Type: application/json
+# ### find all reports by current user
+# GET http://localhost:3000/reports
+# Content-Type: application/json
 
 
 ### approve/disapprove report by id
-PATCH http://localhost:3000/reports/10
+PATCH http://localhost:3000/reports/9
 Content-Type: application/json
 
-  {"approved": false}
+  {"approved": true}
+
+
+### get estimate based on QS
+GET http://localhost:3000/reports?make=Ford&model=Explorer&year=2004&lat=33.30756&lng=-84.22877&mileage=189000
+Content-Type: application/json
+
+### update saved report
+POST http://localhost:3000/reports/update/6
+Content-Type: application/json
+
+{
+  "price": 125000,
+  "make":"Chevrolet",
+  "model": "Malibu",
+  "year": 2004,
+  "lat": 38.2,
+  "lng": -84.0,
+  "mileage": 188000
+}
+
